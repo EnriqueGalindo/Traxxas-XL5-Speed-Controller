@@ -15,19 +15,19 @@ void setup()
   pinMode(ledPin, OUTPUT);
 
   // initialize timer1 
-  noInterrupts();           // disable all interrupts
+ /* noInterrupts();           // disable all interrupts
   TCCR1A = 0;
   TCCR1B = 0;
 
   TCNT1 = 34286*2;            // preload timer 65536-16MHz/256/2Hz
   TCCR1B |= (1 << CS12);    // 256 prescaler 
   TIMSK1 |= (1 << TOIE1);   // enable timer overflow interrupt
-  interrupts();  
+  interrupts(); */ 
   myservo.attach(9);// attach the servo 
   myESC.attach(3); //stating that the ESC's signal is plugged into Pin 3 on the Arduino
   myESC.write(92);
   delay(1000); 
-}
+}/*
 ISR(TIMER1_OVF_vect)        // interrupt service routine that wraps a user defined function supplied by attachInterrupt
 {
   TCNT1 = 34286*2;            // preload timer
@@ -45,7 +45,7 @@ ISR(TIMER1_OVF_vect)        // interrupt service routine that wraps a user defin
   // Prints the distance on the Serial Monitor
   Serial.print("Distance: ");
   Serial.println(distance);
-}
+}*/
 void rset()
 {
   for(int i=90; i>25;i--)
@@ -143,10 +143,10 @@ void calib()
 {
   while(b!=0)
   {
-   //Serial.println("Enter x factor");
-   //while(!Serial.available());
-   //xfactor= Serial.parseInt();
-   xfactor=10;
+   Serial.println("Enter x factor");
+   while(!Serial.available());
+   xfactor= Serial.parseInt();
+   //xfactor=10;
    if(xfactor>90||xfactor<-90)
    {
     Serial.println("Invalid Input");
@@ -154,8 +154,8 @@ void calib()
    }
    myservo.write(xfactor+90); 
    Serial.println("Ok - 0, try again - 1");
-   //while(!Serial.available());
-   //b = Serial.parseInt();
+   while(!Serial.available());
+   b = Serial.parseInt();
    b=0;
   }
 }
